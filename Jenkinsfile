@@ -8,7 +8,14 @@ pipeline {
         }
 		stage('Test') {
             steps {
-			    powershell 'jenkins/scripts/test.sh'
+			    powershell './jenkins/scripts/test.sh'
+            }
+        }
+		stage('Deliver') {
+            steps {
+                powershell './jenkins/scripts/deliver.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                powershell './jenkins/scripts/kill.sh'
             }
         }
     }
